@@ -162,40 +162,6 @@ const dithering = async (pathIn, pathOut) => {
           distributeError(0, 1, 5 / 16);
           distributeError(1, 1, 1 / 16);
 
-          // const idx1 = idxShifter(x + 1, y)
-          // const idx1Red = idx1 + quantErrR + 7/16;
-          // const idx1Green = idx1 + quantErrG + 7/16;
-          // const idx1Blue = idx1 + quantErrB + 7/16;
-          // this.data[idx1] = idx1Red;
-          // this.data[idx1 + 1] = idx1Green;
-          // this.data[idx1 + 2] = idx1Blue;
-
-
-          // const idx2 = idxShifter(x - 1, y + 1)
-          // const idx2Red = idx2 + quantErrR + 3/16;
-          // const idx2Green = idx2 + quantErrG + 3/16;
-          // const idx2Blue = idx2 + quantErrB + 3/16;
-          // this.data[idx2] = idx2Red;
-          // this.data[idx2 + 1] = idx2Green;
-          // this.data[idx2 + 2] = idx2Blue;
-
-
-          // const ix3 = idxShifter(x + 1, y)
-          // const idx3Red = ix3 + quantErrR + 5/16;
-          // const idx3Green = ix3 + quantErrG + 5/16;
-          // const idx3Blue = ix3 + quantErrB + 5/16;
-          // this.data[ix3] = idx3Red;
-          // this.data[ix3 + 1] = idx3Green;
-          // this.data[ix3 + 2] = idx3Blue;
-
-
-          // const idx4 = idxShifter(x + 1, y + 1)
-          // const idx4Red = idx4 + quantErrR + 1/16;
-          // const idx4Green = idx4 + quantErrG + 1/16;
-          // const idx4Blue = idx4 + quantErrB + 1/16;
-          // this.data[idx4] = idx4Red;
-          // this.data[idx4 + 1] = idx4Green;
-          // this.data[idx4 + 2] = idx4Blue;
         }
       }
       this.pack().pipe(createWriteStream(pathOut));
