@@ -64,12 +64,12 @@ const readDir = async (dir) => {
 
 
 const grayScale = (pathIn, pathOut) => {
-    createReadStream(pathIn)
+    createReadStream(pathIn).on('error', reject)
       .pipe(
         new PNG({
           filterType: 4,
         })
-      )
+      ).on('error', reject)
       .on("parsed", function () {
         for (let y = 0; y < this.height; y++) {
           for (let x = 0; x < this.width; x++) {
@@ -87,14 +87,14 @@ const grayScale = (pathIn, pathOut) => {
           }
         }
 
-        this.pack().pipe(createWriteStream(pathOut));
+        this.pack().on('error', reject).pipe(createWriteStream(pathOut)).on('error', reject);
       });
 
 };
 
 const sepia = async (pathIn, pathOut) => {
-  createReadStream(pathIn)
-      .pipe(new PNG({}))
+  createReadStream(pathIn).on('error', reject)
+      .pipe(new PNG({})).on('error', reject)
       .on("parsed", function () {
         for (let y = 0; y < this.height; y++) {
           for (let x = 0; x < this.width; x++) {
@@ -115,14 +115,39 @@ const sepia = async (pathIn, pathOut) => {
           }
         }
 
-        this.pack().pipe(createWriteStream(pathOut));
+        this.pack().on('error', reject).pipe(createWriteStream(pathOut)).on('error', reject);
       })
+}
+
+const invert = async (pathIn, pathOut) => {
+  createReadStream(pathIn).on('error', reject)
+  .pipe(new PNG({})).on('error', reject)
+  .on("parsed", function () {
+    const idxShifter = (x, y) => (x + y * this.width) << 2;
+
+    for (let y = 0; y < this.height; y++) {
+      for (let x = 0; x < this.width; x++) {
+          const idx = idxShifter(x, y);
+
+          const red = this.data[idx];
+          const green = this.data[idx + 1];
+          const blue =this.data[idx + 2];
+
+          this.data[idx] = 255 - red;
+          this.data[idx + 1] = 255 - green;
+          this.data[idx + 2] = 255 - blue;
+
+        }
+      }
+
+      this.pack().on('error', reject).pipe(createWriteStream(pathOut)).on('error', reject);
+    })
 }
 
 
 const dithering = async (pathIn, pathOut) => {
-  createReadStream(pathIn)
-  .pipe(new PNG({}))
+  createReadStream(pathIn).on('error', reject)
+  .pipe(new PNG({})).on('error', reject)
   .on("parsed", function () {
     const idxShifter = (x, y) => (x + y * this.width) << 2;
 
@@ -164,7 +189,7 @@ const dithering = async (pathIn, pathOut) => {
 
         }
       }
-      this.pack().pipe(createWriteStream(pathOut));
+      this.pack().on('error', reject).pipe(createWriteStream(pathOut)).on('error', reject);
     })
 }
 
@@ -175,5 +200,6 @@ module.exports = {
   grayScale,
   sepia,
   dithering,
+  invert,
 };
 
