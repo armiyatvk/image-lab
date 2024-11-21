@@ -20,21 +20,21 @@ const processImg = async () => {
         rl.question(`Choose your filter between these option: grayscale , sepia , dithering `, async (input) => {
             const chosenFilter = input.toLowerCase();
             let newOutputPath;
-            let theChosenFunction;
-            if (chosenFilter === 'grayscale' || chosenFilter === 'sepia' || chosenFilter === 'dithering') {
+            if (chosenFilter === 'grayscale' || chosenFilter === 'sepia' || chosenFilter === 'dithering' || chosenFilter === 'invert' || chosenFilter === "1" || chosenFilter === '2' || chosenFilter === '3' || chosenFilter === "4") {
                 for (let file of files) {
                     if (chosenFilter === 'grayscale') {
                         newOutputPath = path.join(processedPathGray, path.basename(file));
-                        theChosenFunction = IOhandler.grayScale(file, newOutputPath);
+                        IOhandler.grayScale(file, newOutputPath);
                     } else if (chosenFilter === 'sepia') {
                         newOutputPath = path.join(processedPathSepia, path.basename(file));
-                        theChosenFunction = IOhandler.sepia(file, newOutputPath);
+                        IOhandler.sepia(file, newOutputPath);
                     } else if (chosenFilter === 'dithering') {
                         newOutputPath = path.join(processedPathDither, path.basename(file));
-                        theChosenFunction = IOhandler.dithering(file, newOutputPath);
+                        IOhandler.dithering(file, newOutputPath);
                     }
                     rl.close();
                 }
+                console.log('Process completed!')
             } else {
                 console.log('You entered wrong input. Try again!');
                 rl.close();
